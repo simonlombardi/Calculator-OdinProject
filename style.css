@@ -46,7 +46,7 @@ body{
 .operations, .dot{
     border-color: aqua;
 }
-    .operations:hover{
+    .operations:hover, .dot:hover{
         background-color:aqua;
     }
 
