@@ -28,17 +28,17 @@ function divide(a,b){
 function operate(op,a,b){
     switch(op){
         case "+":
-            add(a,b);
-            break;
+            return add(a,b);
+
         case "-":
-            subtract(a,b);
-            break;
+            return subtract(a,b);
+
         case "*":
-            multiply(a,b);
-            break;
+            return multiply(a,b);
+
         case "/":
-            divide(a,b);
-            break;
+            return divide(a,b);
+
     }
 }
 
@@ -67,30 +67,40 @@ operations.forEach(op => op.addEventListener("click", function(e) {
 equal.addEventListener("click", () => {
     currentValue = displayValue.slice(displayValue.indexOf(operation)+1,)
     if (operation == "+") {
-        prevValue = add(prevValue,currentValue)
+        prevValue = operate("+",prevValue,currentValue)
         display.textContent = prevValue;
         digits = display.textContent;
     }
     else if (operation == "-" && displayValue.includes("*")) {
             prevValue = displayValue.slice(0,displayValue.indexOf("*"));
             currentValue = displayValue.slice(displayValue.indexOf("-")+1,)
-            prevValue = multiply(prevValue,-currentValue);
+            prevValue = operate("*",prevValue,-currentValue);
             display.textContent = prevValue;
             digits = display.textContent;
+            console.log("1")
         }
-    else if (operation == "-" && !displayValue.includes("*")){
-            prevValue = subtract(prevValue,currentValue)
+    else if (operation == "-" && !(displayValue.includes("*") || displayValue.includes("/"))){
+            prevValue = operate("-",prevValue,currentValue)
             display.textContent = prevValue;
             digits = display.textContent;
+            console.log("2")
         }
 
     else if (operation == "*") {
-        prevValue = multiply(prevValue,currentValue)
+        prevValue = operate("*",prevValue,currentValue)
         display.textContent = prevValue;
         digits = display.textContent;
     }
-    else if (operation == "/") {
-        prevValue = divide(prevValue,currentValue)
+    else if (operation == "-" && displayValue.includes("/")) {
+        prevValue = displayValue.slice(0,displayValue.indexOf("/"));
+        currentValue = displayValue.slice(displayValue.indexOf("-")+1,);
+        prevValue = operate("/",prevValue,-currentValue);
+        display.textContent = prevValue;
+        digits = display.textContent;
+        console.log("3");
+    }
+    else if (operation == "/"){
+        prevValue = operate("/",prevValue,currentValue)
         display.textContent = prevValue;
         digits = display.textContent;
     }
